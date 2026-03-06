@@ -1,0 +1,24 @@
+/*..new..*/
+.payment-box {
+    background: #f3f4f6;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    margin: 20px 0;
+    border: 1px solid #ddd;
+}
+
+/*..new..*/
+.pay-btn {
+    background: #000;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+/*..new..*/
+.pay-btn:hover {
+    background: #333;
+}

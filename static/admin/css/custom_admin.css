@@ -1,0 +1,11 @@
+/* Full admin background */
+body {
+    background: url("static/images/Auroville.jpg") no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* White box (login + content) */
+#content, .module, .app-auth, .app-tours {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+}

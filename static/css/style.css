@@ -1,0 +1,63 @@
+
+        /* Grid for packages */
+.package-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 cards side by side */
+    gap: 20px;
+}
+
+/* Individual card */
+.package-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Image container */
+.package-img {
+    width: 100%;
+    height: 220px;          /* medium size */
+    overflow: hidden;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+/* Image fit properly */
+.package-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;      /* THIS IS THE KEY */
+}
+
+/* Text */
+.package-card h3 {
+    margin: 5px 0;
+}
+
+.desc {
+    font-size: 14px;
+    color: #555;
+}
+
+.price {
+    font-weight: bold;
+    margin: 8px 0;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .package-grid {
+        grid-template-columns: 1fr; /* 1 card per row */
+    }
+}
+/* #new : booking success message style */ 
+.success-msg {
+    margin-top: 15px;
+    padding: 12px;
+    background: #dcfce7;
+    color: #166534;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+}

@@ -1,0 +1,43 @@
+ .navbar {
+    background: white;
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.left-head {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.right-head ul {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+    margin: 0;
+    padding: 0;
+}
+
+.right-head a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    position: relative;
+}
+
+.right-head a::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background: #16a34a;
+    transition: 0.3s;
+}
+
+.right-head a:hover::after {
+    width: 100%;
+}
