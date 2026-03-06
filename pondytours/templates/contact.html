@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="{% static 'css/contact.css' %}">
+</head>
+<body>
+<div class="navbar">
+   <div class="left-head">Pondy Weekend Tours</div>
+   <div class="right-head">  
+   <ul>
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'about' %}">About</a></li>
+    <li><a href="{% url 'contact' %}">Contact</a></li>
+  </ul>
+</div>
+</div>
+<div class="container">
+
+    <!-- /* Contact Heading */ -->
+    <h2>Contact Us</h2>
+    <p>Have questions? Send us a message.</p>
+
+    <div class="contact-box">
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- /* Name */ -->
+            <input type="text" name="name" placeholder="Your Name" required>
+
+            <!-- /* Email */ -->
+            <input type="email" name="email" placeholder="Your Email" required>
+
+            <!-- /* Phone */ -->
+            <input type="text" name="phone" placeholder="Your Phone Number" required>
+
+            <!-- /* Message */ -->
+            <textarea name="message" placeholder="Your Message" required></textarea>
+
+            <!-- /* Submit Button */ -->
+            <button type="submit" class="btn">Send Message</button>
+        </form>
+
+        <!-- /* Success Message */ -->
+        {% if success %}
+            <p class="success-msg">
+                ✅ Your message has been sent successfully!
+            </p>
+        {% endif %}
+    </div>
+
+</div>
+
+</body>
+</html>

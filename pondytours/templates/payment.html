@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Advance Payment</title>
+    <link rel="stylesheet" href="{% static 'css/payment.css' %}">
+</head>
+<body>
+
+<div class="container">
+
+    <h2>Advance Payment - ₹{{ amount }}</h2>
+
+    <p><b>Package:</b> {{ package.name }}</p>
+
+    <!-- /*..new..*/ Professional payment card -->
+    <div class="payment-box">
+        <p>Please pay ₹{{ amount }} advance to confirm your booking.</p>
+
+    <a class="btn pay-btn" href="{{ upi_link }}">Pay via UPI</a>
+
+
+    </div>
+
+    <br>
+
+    <!-- /*..new..*/ WhatsApp confirmation button -->
+    <a class="btn whatsapp"
+       href="https://wa.me/917010912552?text={{ whatsapp_message|urlencode }}"
+       target="_blank">
+        Send Payment Screenshot on WhatsApp
+    </a>
+
+</div>
+
+</body>
+</html>

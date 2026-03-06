@@ -1,0 +1,82 @@
+{%load static%}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Tour</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body {font-family: Arial; background:#f8fafc;}
+     .box {
+    max-width:400px;
+    margin:50px auto;
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+      input, button {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;   /* ✅ THIS FIXES WIDTH ISSUE */
+}
+        button {
+            background:#0ea5e9;
+            color:white;
+            border:none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Book {{ package.name }}</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <label>Enter Your Name:</label>
+        <input type="text" name="name" placeholder="Your Name" required>
+        <label>Enter Your e-mail Id:</label>
+        <input type="email" name="email" placeholder="E-mail Id" required>
+        <label>Enter Your Phone Number:</label>
+        <input type="text" name="phone" placeholder="Phone Number" required>
+        <label>Date of Booking</label>
+        <input type="date" name="date" required>
+        <!-- /* Number of Persons */ -->
+        <label>Number of Persons</label>
+        <input type="number" id="persons" name="persons" value="1" min="1" required>
+<!-- /* Auto Total Display */ -->
+        <label>Total Amount</label>
+        <input type="text" id="total_amount" readonly>
+        <button type="submit">Confirm Booking</button>
+    </form>
+    {% if success %}
+        <p class="success-msg">
+            ✅ Your booking was successful!  
+            We will contact you shortly.
+        </p>
+    {% endif %}
+
+    <!-- /* Auto Total Calculation Script #javascripts*/ -->
+<script>
+    const pricePerPerson = {{ package.price }};
+    const personsInput = document.getElementById("persons");
+    const totalField = document.getElementById("total_amount");
+
+    function calculateTotal() {
+        const persons = personsInput.value;
+        const total = persons * pricePerPerson;
+        totalField.value = "₹ " + total;
+    }
+
+    personsInput.addEventListener("input", calculateTotal);
+
+    /* initial calculation */
+    calculateTotal();
+</script>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- /* Dashboard Heading */ -->
+    <h2>Admin Dashboard</h2>
+    <p>Business Overview</p>
+
+    <!-- /* Stats Cards */ -->
+    <div class="dashboard-grid">
+
+        <!-- /* Total Bookings */ -->
+        <div class="dash-card">
+            <h3>{{ total_bookings }}</h3>
+            <p>Total Bookings</p>
+        </div>
+
+        <!-- /* Total Persons */ -->
+        <div class="dash-card">
+            <h3>{{ total_persons }}</h3>
+            <p>Total Persons</p>
+        </div>
+
+        <!-- /* Total Revenue */ -->
+        <div class="dash-card">
+            <h3>₹ {{ total_revenue }}</h3>
+            <p>Total Revenue</p>
+        </div>
+
+    </div>
+
+    <br><br>
+
+    <!-- /* Recent Bookings Table */ -->
+    <h3>Recent Bookings</h3>
+
+    <div class="table-box">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Package</th>
+                    <th>Persons</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in recent_bookings %}
+                <tr>
+                    <td>{{ booking.name }}</td>
+                    <td>{{ booking.package.name }}</td>
+                    <td>{{ booking.persons }}</td>
+                    <td>{{ booking.date }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">No bookings yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About | Pondy Weekend Tours</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/about.css' %}">
+</head>
+<body>
+
+<div class="navbar">
+   <div class="left-head">Pondy Weekend Tours</div>
+   <div class="right-head">  
+   <ul>
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'about' %}">About</a></li>
+    <li><a href="{% url 'contact' %}">Contact</a></li>
+  </ul>
+</div>
+</div>
+
+<div class="container">
+
+    <h1>About Pondy Weekend Tours</h1>
+
+    <p>
+        I am an MBA Tourism graduate based in Pondicherry, passionate about 
+        creating authentic and memorable local travel experiences.
+    </p>
+
+    <p>
+        Pondy Weekend Tours was started with a simple idea — 
+        to provide safe, affordable and well-planned weekend tours 
+        for couples, families and solo travelers.
+    </p>
+
+    <p>
+        As a local guide, I ensure:
+    </p>
+
+    <ul>
+        <li>✔ Personalized tour experience</li>
+        <li>✔ Trusted local knowledge</li>
+        <li>✔ Safe and comfortable travel</li>
+        <li>✔ Transparent pricing</li>
+    </ul>
+
+    <h3>Why Choose Us?</h3>
+
+    <p>
+        Unlike big tour operators, we focus on small group experiences, 
+        giving you the real feel of Pondicherry — beaches, heritage streets, 
+        Auroville visits, and hidden local gems.
+    </p>
+
+</div>
+
+<footer class="footer">
+    <div class="footer-bottom">
+        <p>© 2026 Pondy Weekend Tours. All Rights Reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

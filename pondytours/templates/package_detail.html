@@ -1,0 +1,161 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ package.name }} | Pondicherry Weekend Tours</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        /* ===== GALLERY STRONG ZOOM VERSION ===== */
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.gallery-item {
+    overflow: hidden;              /* Important for zoom crop */
+    border-radius: 12px;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+/* 🔥 Strong Zoom */
+.gallery-item:hover img {
+    transform: scale(1.1);        /* Increased zoom */
+    filter: brightness(1.1);       /* Slight highlight */
+     background: red;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .gallery {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.btn{
+    background: #25d366;
+    border: solid black 1px;
+    text-decoration:none; 
+}
+/* #new : package detail page */
+.detail-img {
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+    border-radius: 12px;
+    border: solid black 1px;
+    margin-bottom: 20px;
+}
+
+.detail-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- /* #new : big image */ -->
+    {% if package.image %}
+    <div class="detail-img">
+        <img src="{{ package.image.url }}" alt="{{ package.name }}">
+    </div>
+    {% endif %}
+
+    <!-- /* #new : details */ -->
+    <h1>{{ package.name }}</h1>
+
+    <p class="price">₹{{ package.price }}</p>
+    <p><b>Duration:</b> {{ package.duration }}</p>
+     <a class="btn" href="/payment/{{ package.id }}">Pay ₹500 Advance</a>
+
+    <!-- /* #new : WhatsApp auto message */ -->
+<a class="btn whatsapp" href="https://wa.me/917010912552?text={{ whatsapp_message|urlencode }}"
+   target="_blank">
+   WhatsApp Booking
+</a>
+
+    <h3>About this tour</h3>
+    <p>{{ package.description }}</p>
+<!-- /* #upgrade : Gallery Section */ -->
+<h3>Gallery</h3>
+
+<div class="gallery">
+    {% for img in package.gallery.all %}
+        <div class="gallery-item">
+            <img src="{{ img.image.url }}" alt="Gallery Image">
+            
+            {% if img.caption %} <br>
+                <p class="caption">{{ img.caption }}</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+<!-- /* #new : Included Section */ -->
+<h3>Included</h3>
+<p style="color:green;">{{ package.included|linebreaks }}</p>
+
+<!-- /* #new : Not Included Section */ -->
+<h3>Not Included</h3>
+<p style="color:red;">{{ package.not_included|linebreaks }}</p>
+
+<!-- /* #new : Review Form */ -->
+<h3>Leave a Review</h3>
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="text" name="name" placeholder="Your Name" required><br><br>
+
+    <select name="rating" required>
+        <option value="">Rating</option>
+        <option value="5">⭐⭐⭐⭐⭐</option>
+        <option value="4">⭐⭐⭐⭐</option>
+        <option value="3">⭐⭐⭐</option>
+        <option value="2">⭐⭐</option>
+        <option value="1">⭐</option>
+    </select><br><br>
+
+    <textarea name="message" placeholder="Write your review" required></textarea><br><br>
+
+    <button type="submit" class="btn">Submit Review</button>
+    {% if package.reviews.count > 3 %}
+    <a class="btn" href="{% url 'all_reviews' package.id %}">
+        View More Reviews
+    </a>
+{% endif %}
+
+</form>
+
+<hr>
+
+<!-- /* #new : Display Reviews */ -->
+<h3>Customer Reviews</h3>
+
+{% for review in reviews %}
+<div class="review-box">
+    <strong>{{ review.name }}</strong>
+    <p>Rating: {{ review.rating }} ⭐</p>
+    <p>{{ review.message }}</p>
+    <small>{{ review.created_at }}</small>
+</div>
+<hr>
+{% empty %}
+<p>No reviews yet. Be the first to review!</p>
+{% endfor %}
+</div>
+
+</body>
+</html>
