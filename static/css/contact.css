@@ -64,3 +64,9 @@
 .right-head a:hover::after {
     width: 100%;
 }
+      @media (max-width: 768px) {
+    .card {
+        width: 95%;      /* ← mobile la almost full width */
+        padding: 30px 20px;
+    }
+}
