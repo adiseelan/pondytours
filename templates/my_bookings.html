@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .booking-page {
+        min-height: 80vh;
+        background: linear-gradient(135deg, rgb(217, 241, 241), rgba(255,255,255,0.05));
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 30px 15px;
+    }
+
+    .box {
+        width: 100%;
+        max-width: 600px;
+        background: white;
+        padding: 30px 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .box h2 {
+        color: #111827;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .booking-card {
+        background: #f9fafb;
+        padding: 20px;
+        border-radius: 10px;
+        border-left: 5px solid #16a34a;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        margin-bottom: 18px;
+    }
+
+    .booking-card h5 {
+        margin: 0 0 12px 0;
+        color: #111827;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .booking-card p {
+        margin: 8px 0;
+        color: #374151;
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+        .box { padding: 20px 15px; }
+        .booking-card h5 { font-size: 18px; }
+        .booking-card p { font-size: 15px; }
+    }
+</style>
+
+<div class="booking-page">
+    <div class="box">
+        <h2>My Bookings</h2>
+        <hr>
+        {% if bookings %}
+            {% for booking in bookings %}
+                <div class="booking-card">
+                    <h5>{{ booking.package.name }}</h5>
+                    <p>📅 Date: {{ booking.date }}</p>
+                    <p>👥 Persons: {{ booking.persons }}</p>
+                    <p>💰 Amount: ₹{{ booking.total_amount }}</p>
+                    <p>📌 Status: {{ booking.status }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No bookings found.</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

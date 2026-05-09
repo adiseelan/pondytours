@@ -1,0 +1,126 @@
+{%load static%}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Tour</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgb(217, 241, 241), rgba(255,255,255,0.05));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+     .box {
+    max-width:400px;
+    margin:50px auto;
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+      input, button {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;   /* ✅ THIS FIXES WIDTH ISSUE */
+}
+        button {
+            background:#0ea5e9;
+            color:white;
+            border:none;
+        }
+            @media (max-width: 768px) {
+    .card {
+        width: 95%;      /* ← mobile la almost full width */
+        padding: 30px 20px;
+    }
+}
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Book {{ package.name }}</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <label>Enter Your Name:</label>
+        <input type="text" name="name" placeholder="Your Name" required>
+        <label>Enter Your e-mail Id:</label>
+        <input type="email" name="email" placeholder="E-mail Id" required>
+        <label>Enter Your Phone Number:</label>
+        <input type="text" name="phone" placeholder="Phone Number" required>
+        <label>Date of Booking</label>
+        <input type="date" name="date" required>
+        <p id="date-error" style="display:none; color:red; margin-top:10px;">
+        ❌ Please select a weekend date (Saturday or Sunday).
+    </p>   
+        <!-- /* Number of Persons */ -->
+        <label>Number of Persons</label>
+        <input type="number" id="persons" name="persons" value="1" min="1" required>
+<!-- /* Auto Total Display */ -->
+        <label>Total Amount</label>
+        <input type="text" id="total_amount" readonly>
+        <button type="submit">Confirm Booking</button>
+    </form>
+    {% if success %}
+        <p class="success-msg">
+            ✅ Your booking was successful!  
+            We will contact you shortly.
+        </p>
+    {% endif %}
+
+    <!-- /* Auto Total Calculation Script #javascripts*/ -->
+<script>
+    const pricePerPerson = {{ package.price }};
+    const personsInput = document.getElementById("persons");
+    const totalField = document.getElementById("total_amount");
+    const dateInput = document.querySelector('input[name="date"]');
+    const dateError = document.getElementById("date-error");
+
+    // Total calculation
+    function calculateTotal() {
+        const persons = personsInput.value;
+        totalField.value = "₹ " + (persons * pricePerPerson);
+    }
+    personsInput.addEventListener("input", calculateTotal);
+    calculateTotal();
+
+    // Weekend only validation
+    dateInput.addEventListener("change", function () {
+        const selected = new Date(this.value);
+        const day = selected.getUTCDay(); // 0=Sun, 6=Sat
+
+        if (day !== 0 && day !== 6) {
+            dateError.style.display = "block";
+            this.value = ""; // date clear பண்ணிடு
+        } else {
+            dateError.style.display = "none";
+        }
+    });
+
+    // Form submit-லயும் block பண்ணு
+    document.querySelector("form").addEventListener("submit", function (e) {
+        const selected = new Date(dateInput.value);
+        const day = selected.getUTCDay();
+        if (day !== 0 && day !== 6) {
+            e.preventDefault();
+            dateError.style.display = "block";
+        }
+    });
+</script>
+
+     
+
+</div>
+
+</body>
+</html>

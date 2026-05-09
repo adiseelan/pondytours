@@ -1,0 +1,11 @@
+<h2>All Reviews - {{ package.name }}</h2>
+
+{% for review in reviews %}
+<div class="review-box">
+    <strong>{{ review.name }}</strong>
+    <p>Rating: {{ review.rating }} ⭐</p>
+    <p>{{ review.message }}</p>
+    <small>{{ review.created_at }}</small>
+</div>
+<hr>
+{% endfor %}
