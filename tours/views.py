@@ -9,6 +9,8 @@ from django.contrib.auth import login, authenticate, logout #login view
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from datetime import datetime #my project use for saturday, sundays.
+import razorpay
+from django.conf import settings
 
 
 
@@ -31,19 +33,34 @@ def home(request):
 @login_required
 def book_tour(request, id):
     package = get_object_or_404(TourPackage, id=id)
-
     if request.method == 'POST':
-        Booking.objects.create(
+        persons = int(request.POST.get('persons'))
+        total_amount = package.price * persons
+        client = razorpay.Client(
+            auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
+        )
+        razorpay_order = client.order.create({
+            "amount": total_amount * 100,
+            "currency": "INR",
+            "payment_capture": 1
+        })
+        booking = Booking.objects.create(
             user=request.user,
             package=package,
             name=request.POST.get('name'),
             email=request.POST.get('email'),
             phone=request.POST.get('phone'),
             date=request.POST.get('date'),
-            persons=request.POST.get('persons')
+            persons=persons,
+            razorpay_order_id=razorpay_order['id'],
         )
-        return redirect("my_bookings")
-
+        return render(request, 'book.html', {
+            'package': package,
+            'razorpay_order_id': razorpay_order['id'],
+            'razorpay_key': settings.RAZORPAY_KEY_ID,
+            'total_amount': total_amount * 100,
+            'booking': booking,
+        })
     return render(request, 'book.html', {'package': package})
 
 
@@ -215,3 +232,16 @@ def user_logout(request):
 def my_bookings(request):
     bookings = Booking.objects.filter(user=request.user)
     return render(request, "my_bookings.html", {"bookings": bookings})
+
+# ===================== PAYMENT SUCCESS =====================
+
+def payment_success(request):
+    payment_id = request.GET.get('payment_id')
+    order_id = request.GET.get('order_id')
+    booking = Booking.objects.filter(razorpay_order_id=order_id).first()
+    if booking:
+        booking.payment_status = 'paid'
+        booking.save()
+    return render(request, 'payment_success.html', {
+        'payment_id': payment_id
+    })

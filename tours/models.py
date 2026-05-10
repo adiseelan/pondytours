@@ -75,6 +75,9 @@ class Booking(models.Model):
         blank=True
     )
 
+    razorpay_order_id = models.CharField(max_length=100, blank=True, null=True)  # ← add
+    payment_status = models.CharField(max_length=20, default='pending') 
+
     # #new : booking id
     booking_id = models.CharField(max_length=12,unique=True,blank=True)
 

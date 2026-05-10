@@ -71,6 +71,34 @@
         <input type="text" id="total_amount" readonly>
         <button type="submit">Confirm Booking</button>
     </form>
+    <!-- /* Razorpay Checkout Script */ -->
+    {% if razorpay_order_id %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    var options = {
+        "key": "{{ razorpay_key }}",
+        "amount": "{{ total_amount }}",        // paise-la
+        "currency": "INR",
+        "name": "Pondy Weekend Tours",
+        "description": "{{ package.name }}",
+        "order_id": "{{ razorpay_order_id }}",
+        "handler": function (response) {
+            // Payment success — server-ku send pannu
+            window.location.href = "/payment-success/?payment_id=" 
+                + response.razorpay_payment_id 
+                + "&order_id={{ razorpay_order_id }}";
+        },
+        "prefill": {
+            "name": "{{ request.user.username }}",
+            "email": "{{ request.user.email }}"
+        },
+        "theme": { "color": "#0ea5e9" }
+    };
+    var rzp = new Razorpay(options);
+    rzp.open();  // auto-open checkout
+</script>
+{% endif %}
+ <!-- /* Razorpay Checkout Script end */ -->
     {% if success %}
         <p class="success-msg">
             ✅ Your booking was successful!  
